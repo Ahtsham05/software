@@ -142,6 +142,24 @@ const summery = {
     method: 'get'
   },
 
+  // account
+  addAccount: {
+    url: '/accounts',
+    method: 'post',
+  },
+  updateAccount: {
+    url: '/accounts',
+    method: 'patch',
+  },
+  deleteAccount: {
+    url: '/accounts',
+    method: 'delete',
+  },
+  fetchAccounts: {
+    url: '/accounts',
+    method: 'get',
+  },
+
 };
 
 export default summery;

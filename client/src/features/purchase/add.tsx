@@ -5,14 +5,6 @@ import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from '@/components/ui/dialog'
-import {
     Form,
     FormControl,
     FormField,
@@ -20,10 +12,8 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch } from '@/stores/store'
-import { addSupplier, updateSupplier } from '@/stores/supplier.slice'
 import toast from 'react-hot-toast'
 import { Header } from '@/components/layout/header'
 import { Search } from '@/components/search'
@@ -32,11 +22,10 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Main } from '@/components/layout/main'
 import SuppliersProvider from './context/users-context'
 import Select from 'react-select'
-import { useEffect, useMemo, useState } from 'react'
-import { selectBoxStyle } from '@/assets/styling.ts'
+import { useEffect, useState } from 'react'
 import { IconBackspace } from '@tabler/icons-react'
 import { addPurchase, fetchPurchaseById, updatePurchase } from '@/stores/purchase.slice'
-import { useNavigate, useParams } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 import { jsPDF } from 'jspdf'; // Import jsPDF
 import { useLocation } from '@tanstack/react-router'
 
@@ -72,12 +61,6 @@ const defaultValues: z.infer<typeof purchaseFormSchema> = {
 };
 
 // Define the props for the SuppliersActionDialog
-type SuppliersActionDialogProps = {
-    currentRow: any;
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    setFetch: (fetch: boolean) => void;
-};
 
 export default function SuppliersActionDialog() {
     const location = useLocation();
@@ -106,7 +89,6 @@ export default function SuppliersActionDialog() {
         resolver: zodResolver(purchaseFormSchema),
         defaultValues,
     });
-    const [pdfReady, setPdfReady] = useState(true);
     const productsOptions = useSelector((state: any) => state.product?.products);
     const suppliersOptions = useSelector((state: any) => state.supplier?.data);
     const [totalInvoice, setTotallInvoice] = useState(0)
@@ -253,7 +235,7 @@ export default function SuppliersActionDialog() {
                                     <FormField
                                         control={form.control}
                                         name="supplier"
-                                        render={({ field }) => (
+                                        render={() => (
                                             <FormItem className="space-y-0">
                                                 <FormLabel className="col-span-2 text-right">Supplier Name</FormLabel>
                                                 <FormControl>
@@ -271,7 +253,7 @@ export default function SuppliersActionDialog() {
                                                                     field.onChange(option?.value); // Ensure we are passing the correct value
                                                                 }}
                                                                 styles={{
-                                                                    control: (base: any, state: any) => ({
+                                                                    control: (base: any) => ({
                                                                         ...base,
                                                                         boxShadow: 'none',
                                                                         borderColor: 'transparent',
@@ -332,7 +314,7 @@ export default function SuppliersActionDialog() {
                                     <FormField
                                         control={form.control}
                                         name="purchaseDate"
-                                        render={({ field }) => (
+                                        render={() => (
                                             <FormItem className="space-y-0">
                                                 <FormLabel className="col-span-2 text-right">Date</FormLabel>
                                                 <FormControl>
@@ -382,7 +364,7 @@ export default function SuppliersActionDialog() {
                                                             field.onChange(option?.value)
                                                         }}
                                                         styles={{
-                                                            control: (base: any, state: any) => ({
+                                                            control: (base: any) => ({
                                                                 ...base,
                                                                 boxShadow: 'none',
                                                                 borderColor: 'transparent',

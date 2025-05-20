@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom/client'
 import {
   // QueryCache,
   QueryClient,
-  QueryClientProvider,
 } from '@tanstack/react-query'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 // import { toast } from 'sonner'

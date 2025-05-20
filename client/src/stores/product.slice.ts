@@ -83,7 +83,7 @@ const productSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchProducts.fulfilled, (state, action) => {
+            .addCase(fetchProducts.fulfilled, () => {
                 // state.data = action.payload; // Assuming payload contains the list of products
             })
             .addCase(addProduct.fulfilled, (state, action) => {

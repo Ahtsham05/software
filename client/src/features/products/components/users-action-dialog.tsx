@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
-import { v4 as uuidv4 } from 'uuid'; import {
+import {
   Dialog,
   DialogContent,
   DialogDescription,

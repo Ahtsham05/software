@@ -1,7 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios';
 import summery from './summery';
-import { useNavigate } from '@tanstack/react-router';
-
 // Create the Axios instance
 const baseUrl = import.meta.env.VITE_BACKEND_URL;
 

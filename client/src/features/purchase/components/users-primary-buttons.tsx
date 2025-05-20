@@ -1,10 +1,8 @@
 import { Button } from '@/components/ui/button'
-import { useSuppliers } from '../context/users-context'
 import { PlusCircle } from 'lucide-react'
 import { useNavigate } from '@tanstack/react-router'
 
 export default function UsersPrimaryButtons() {
-  const { setOpen } = useSuppliers()
   const navigate = useNavigate()
   const addPurchase = () => {
     navigate({ to: '/purchase-add', replace: true })

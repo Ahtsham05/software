@@ -11,10 +11,6 @@ import { AppDispatch } from '@/stores/store'
 import { deleteAccount } from '@/stores/account.slice'
 import toast from 'react-hot-toast'
 
-interface Account {
-  _id: string
-  name: string
-}
 
 interface Props {
   open: boolean

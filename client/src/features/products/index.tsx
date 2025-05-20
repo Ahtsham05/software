@@ -8,12 +8,11 @@ import ProductDialogs from './components/users-dialogs' // Adjusted for products
 import ProductPrimaryButtons from './components/users-primary-buttons' // Adjusted for products
 import { ProductTable } from './components/users-table' // Adjusted for products
 import ProductsProvider from './context/users-context' // Adjusted for products
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/stores/store'
 import { useEffect, useState } from 'react'
 import { fetchProducts } from '@/stores/product.slice'
 import { Loader2 } from 'lucide-react'
-import { set } from 'date-fns'
 import { Input } from '@/components/ui/input'
 
 export default function Products() {

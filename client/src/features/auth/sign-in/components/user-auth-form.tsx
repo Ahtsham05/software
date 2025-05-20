@@ -16,11 +16,11 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/stores/store'
 import { useNavigate } from '@tanstack/react-router'
 import { signinWithEmailPassword } from '@/stores/auth.slice'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 
 type UserAuthFormProps = HTMLAttributes<HTMLFormElement>
 

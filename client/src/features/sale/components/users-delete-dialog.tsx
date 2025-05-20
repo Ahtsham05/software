@@ -6,16 +6,16 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ConfirmDialog } from '@/components/confirm-dialog'
-import { purchase } from '../data/schema'  // Changed from Customer to Supplier
+import { sale } from '../data/schema'  // Changed from Customer to Supplier
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/stores/store'
 import toast from 'react-hot-toast'
-import { deletePurchase } from '@/stores/purchase.slice'
+import { deleteSale } from '@/stores/sale.slice'
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
-  currentRow: purchase  // Changed from Customer to Supplier
+  currentRow: sale  // Changed from Customer to Supplier
   setFetch: any
 }
 
@@ -27,7 +27,7 @@ export function SuppliersDeleteDialog({ open, onOpenChange, currentRow, setFetch
     if (value.trim() !== currentRow?.invoiceNumber) return
 
     onOpenChange(false)
-    await dispatch(deletePurchase(currentRow.id)).then(() => {
+    await dispatch(deleteSale(currentRow.id)).then(() => {
       toast.success('Purchase deleted successfully')
       setFetch((prev: any) => !prev)
     })

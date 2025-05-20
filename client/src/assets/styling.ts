@@ -1,5 +1,5 @@
 export const selectBoxStyle = {
-    control: (base: any, state: any) => ({
+    control: (base: any) => ({
         ...base,
         boxShadow: 'none',
         borderColor: 'transparent',

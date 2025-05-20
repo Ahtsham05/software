@@ -5,14 +5,6 @@ import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from '@/components/ui/dialog'
-import {
     Form,
     FormControl,
     FormField,
@@ -20,10 +12,8 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch } from '@/stores/store'
-import { addCustomer, updateCustomer } from '@/stores/customer.slice'
 import toast from 'react-hot-toast'
 import { Header } from '@/components/layout/header'
 import { Search } from '@/components/search'
@@ -36,7 +26,7 @@ import { useEffect, useState } from 'react'
 import { selectBoxStyle } from '@/assets/styling.ts'
 import { IconBackspace } from '@tabler/icons-react'
 import { addSale, fetchSaleById, updateSale } from '@/stores/sale.slice'  // Updated for sales
-import { useNavigate, useParams } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 import { jsPDF } from 'jspdf';  // Import jsPDF
 import { useLocation } from '@tanstack/react-router'
 
@@ -78,12 +68,6 @@ const defaultValues: z.infer<typeof saleFormSchema> = {
 };
 
 // Define the props for the SalesActionDialog
-type SalesActionDialogProps = {
-    currentRow: any;
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    setFetch: (fetch: boolean) => void;
-};
 
 export default function SalesActionDialog() {
     const location = useLocation();
@@ -117,7 +101,6 @@ const form = useForm<SaleForm>({
     resolver: zodResolver(saleFormSchema),
     defaultValues,
 });
-const [pdfReady, setPdfReady] = useState(true);
 const productsOptions = useSelector((state: any) => state.product?.products);
 const customersOptions = useSelector((state: any) => state.customer?.data);
 const [totalInvoice, setTotalInvoice] = useState(0)
@@ -264,7 +247,7 @@ return (
                                 <FormField
                                     control={form.control}
                                     name="customer"
-                                    render={({ field }) => (
+                                    render={() => (
                                         <FormItem className="space-y-0">
                                             <FormLabel className="col-span-2 text-right">Customer Name</FormLabel>
                                             <FormControl>
@@ -293,7 +276,7 @@ return (
                                 <FormField
                                     control={form.control}
                                     name="saleDate"
-                                    render={({ field }) => (
+                                    render={() => (
                                         <FormItem className="space-y-0">
                                             <FormLabel className="col-span-2 text-right">Sale Date</FormLabel>
                                             <FormControl>

@@ -2,7 +2,6 @@ import React from 'react'
 import { useAccounts } from '../context/users-context'
 import AccountActionDialog from './users-action-dialog'
 import AccountDeleteDialog from './users-delete-dialog'
-import { Account } from '../data/schema'  // Import your Account type
 
 interface AccountsDialogsProps {
   setFetch: React.Dispatch<React.SetStateAction<boolean>>

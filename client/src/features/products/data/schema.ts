@@ -1,4 +1,3 @@
-import { id } from 'date-fns/locale'
 import { z } from 'zod'
 
 // Define a schema for a single product
