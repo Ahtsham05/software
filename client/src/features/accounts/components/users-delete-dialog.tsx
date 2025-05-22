@@ -28,7 +28,7 @@ export default function AccountDeleteDialog({ open, onOpenChange, currentAccount
 
     onOpenChange(false)
     try {
-      await dispatch(deleteAccount(currentAccount._id)).unwrap()
+      await dispatch(deleteAccount(currentAccount.id)).unwrap()
       toast.success('Account deleted successfully')
       setFetch(prev => !prev)
     } catch {

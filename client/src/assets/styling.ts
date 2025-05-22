@@ -10,6 +10,7 @@ export const selectBoxStyle = {
         '&:hover': { borderColor: 'transparent' },
         minHeight: '2.5rem',
         borderRadius: '0.5rem',
+        border: '1px solid #eaeaea',
     }),
     singleValue: (base:any) => ({
         ...base,

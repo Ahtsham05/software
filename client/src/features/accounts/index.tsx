@@ -13,6 +13,7 @@ import AccountPrimaryButtons from './components/users-primary-buttons'; // analo
 import AccountTable from './components/users-table'; // analogous to CustomerTable
 import AccountsDialogs from './components/users-dialogs'; // analogous to CustomerDialogs
 import { columns } from './components/users-columns';
+import { Search } from '@/components/search';
 
 export default function Accounts() {
   const [accounts, setAccounts] = useState<any[]>([]);
@@ -22,6 +23,7 @@ export default function Accounts() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const dispatch = useDispatch<AppDispatch>();
+  const [fetch, setFetch] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -29,6 +31,7 @@ export default function Accounts() {
       page: currentPage,
       limit,
       sortBy: 'createdAt:desc',
+      populate: 'supplier,customer',
       ...(search && { search }),
       ...(search && { fieldName: 'name' }),
     };
@@ -38,18 +41,13 @@ export default function Accounts() {
       setLimit(data.payload?.limit ?? 10);
       setLoading(false);
     });
-  }, [currentPage, limit, search, dispatch]);
+  }, [currentPage, limit, search, dispatch, fetch]);
 
   return (
     <AccountsProvider>
       <Header fixed>
-        <Input
-          placeholder="Search accounts..."
-          className="h-8 w-[150px] lg:w-[250px]"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <div className="ml-auto flex items-center space-x-4">
+        <Search />
+        <div className='ml-auto flex items-center space-x-4'>
           <ThemeSwitch />
           <ProfileDropdown />
         </div>
@@ -62,6 +60,12 @@ export default function Accounts() {
           </div>
           <AccountPrimaryButtons />
         </div>
+        <Input
+          placeholder="Search accounts..."
+          className="h-8 w-[150px] lg:w-[250px]"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12">
           {loading ? (
             <div className="flex h-[50vh] items-center justify-center">
@@ -76,7 +80,7 @@ export default function Accounts() {
           )}
         </div>
       </Main>
-      <AccountsDialogs setFetch={setLoading} />
+      <AccountsDialogs setFetch={setFetch} />
     </AccountsProvider>
   );
 }

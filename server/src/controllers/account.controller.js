@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const { accountService } = require('../services');
 const ApiError = require('../utils/ApiError');
+const pick = require('../utils/pick');
 
 const createAccount = catchAsync(async (req, res) => {
   const account = await accountService.createAccount(req.body);
@@ -9,18 +10,8 @@ const createAccount = catchAsync(async (req, res) => {
 });
 
 const getAccounts = catchAsync(async (req, res) => {
-  const filter = {};
-  if (req.query.name) filter.name = req.query.name;
-  if (req.query.type) filter.type = req.query.type;
-  if (req.query.customer) filter.customer = req.query.customer;
-  if (req.query.supplier) filter.supplier = req.query.supplier;
-
-  const options = {
-    sortBy: req.query.sortBy,
-    limit: req.query.limit ? parseInt(req.query.limit, 10) : undefined,
-    page: req.query.page ? parseInt(req.query.page, 10) : undefined,
-  };
-
+  const filter = pick(req.query, ['name', 'type', 'transactionType']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page', 'search', 'fieldName']);
   const result = await accountService.queryAccounts(filter, options);
   res.send(result);
 });

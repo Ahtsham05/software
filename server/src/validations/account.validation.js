@@ -5,8 +5,8 @@ const createAccount = {
     name: Joi.string().required(),
     type: Joi.string().valid('receivable', 'payable').required(),
     balance: Joi.number().default(0),
-    customer: Joi.string().optional(),
-    supplier: Joi.string().optional(),
+    customer: Joi.string().optional().allow(null),
+    supplier: Joi.string().optional().allow(null),
     transactionType: Joi.string().valid('cashReceived', 'expenseVoucher', 'generalLedger').required(),
   }),
 };
@@ -20,6 +20,9 @@ const getAccounts = {
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
     sortBy: Joi.string(),
+    search: Joi.string(),
+    fieldName: Joi.string(),
+    populate: Joi.string(),
   }),
 };
 

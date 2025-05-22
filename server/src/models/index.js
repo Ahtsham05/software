@@ -6,3 +6,4 @@ module.exports.Product = require('./product.model');
 module.exports.Purchase = require('./purchase.model');
 module.exports.Sale = require('./sale.model');
 module.exports.Invoice = require('./invoice.model');
+module.exports.Account = require('./account.model');

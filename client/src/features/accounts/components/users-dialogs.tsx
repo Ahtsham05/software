@@ -11,7 +11,7 @@ export default function AccountsDialogs({ setFetch }: AccountsDialogsProps) {
   const { open, setOpen, currentAccount, setCurrentRow } = useAccounts()
 
   // Guard to ensure _id exists (to satisfy non-optional _id in dialogs)
-  const hasValidId = !!currentAccount?._id
+  const hasValidId = !!currentAccount?.id
 
   return (
     <>
@@ -19,13 +19,13 @@ export default function AccountsDialogs({ setFetch }: AccountsDialogsProps) {
         setFetch={setFetch}
         key="account-add"
         open={open === 'add'}
-        onOpenChange={() => setOpen('add')}
+        onOpenChange={(openState) => setOpen(openState ? 'add' : null)}
       />
 
       {currentAccount && hasValidId && (
         <>
           <AccountActionDialog
-            key={`account-edit-${currentAccount._id}`}
+            key={`account-edit-${currentAccount.id}`}
             setFetch={setFetch}
             open={open === 'edit'}
             onOpenChange={() => {
@@ -36,7 +36,7 @@ export default function AccountsDialogs({ setFetch }: AccountsDialogsProps) {
           />
 
           <AccountDeleteDialog
-            key={`account-delete-${currentAccount._id}`}
+            key={`account-delete-${currentAccount.id}`}
             open={open === 'delete'}
             setFetch={setFetch}
             onOpenChange={() => {
