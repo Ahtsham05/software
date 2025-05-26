@@ -22,7 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Customer } from '../data/schema'
+import { MobileRepair } from '../data/schema'
 import { DataTablePagination } from './data-table-pagination'
 import { DataTableToolbar } from './data-table-toolbar'
 
@@ -34,12 +34,12 @@ declare module '@tanstack/react-table' {
 }
 
 interface DataTableProps {
-  columns: ColumnDef<Customer>[]
-  data: Customer[]
+  columns: ColumnDef<MobileRepair>[]
+  data: MobileRepair[]
   paggination: any
 }
 
-export function CustomerTable({ columns, data, paggination }: DataTableProps) {
+export function MobileRepairTable({ columns, data, paggination }: DataTableProps) {
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])

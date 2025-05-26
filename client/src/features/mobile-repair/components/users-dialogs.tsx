@@ -1,49 +1,43 @@
-import { useCustomers } from '../context/users-context'
-import { CustomersActionDialog } from './users-action-dialog'
-import { CustomersDeleteDialog } from './users-delete-dialog'
-import { UsersInviteDialog } from './users-invite-dialog'
+import { useMobileRepair } from '../context/users-context'
+import { MobileRepairActionDialog } from './users-action-dialog'
+import { MobileRepairDeleteDialog } from './users-delete-dialog'
 
-export default function UsersDialogs({setFetch}:any) {
-  const { open, setOpen, currentRow, setCurrentRow } = useCustomers()
+interface Props {
+  setFetch: any
+}
+
+export default function MobileRepairDialogs({ setFetch }: Props) {
+  const { open, setOpen, currentRow, setCurrentRow } = useMobileRepair()
+
   return (
     <>
-      <CustomersActionDialog
+      <MobileRepairActionDialog
         setFetch={setFetch}
-        key='user-add'
+        key="mobileRepair-add"
         open={open === 'add'}
         onOpenChange={() => setOpen('add')}
       />
 
-      <UsersInviteDialog
-        key='user-invite'
-        open={open === 'invite'}
-        onOpenChange={() => setOpen('invite')}
-      />
-
       {currentRow && (
         <>
-          <CustomersActionDialog
-            key={`user-edit-${currentRow?._id}`}
+          <MobileRepairActionDialog
+            key={`mobileRepair-edit-${currentRow?._id}`}
             setFetch={setFetch}
             open={open === 'edit'}
             onOpenChange={() => {
               setOpen('edit')
-              setTimeout(() => {
-                setCurrentRow(null)
-              }, 500)
+              setTimeout(() => setCurrentRow(null), 500)
             }}
             currentRow={currentRow}
           />
 
-          <CustomersDeleteDialog
-            key={`user-delete-${currentRow?._id}`}
+          <MobileRepairDeleteDialog
+            key={`mobileRepair-delete-${currentRow?._id}`}
             open={open === 'delete'}
             setFetch={setFetch}
             onOpenChange={() => {
               setOpen('delete')
-              setTimeout(() => {
-                setCurrentRow(null)
-              }, 500)
+              setTimeout(() => setCurrentRow(null), 500)
             }}
             currentRow={currentRow}
           />

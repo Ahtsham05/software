@@ -23,61 +23,66 @@ import {
 import { Input } from '@/components/ui/input'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/stores/store'
-import { addCustomer, updateCustomer } from '@/stores/customer.slice'
+import { addMobileRepair, updateMobileRepair } from '@/stores/mobileRepair.slice'
 import toast from 'react-hot-toast'
+import { MobileRepair } from '../data/schema'
 
 const formSchema = z.object({
   name: z.string().min(1, { message: 'Name is required.' }),
-  email: z.string().optional(),
   phone: z.string().optional(),
-  whatsapp: z.string().optional(),  // Added whatsapp field
-  address: z.string().optional(),
+  mobileModel: z.string().optional(),
+  mobileFault: z.string().optional(),
+  totalAmount: z
+    .number()
+    .min(0, { message: 'Total Amount must be positive' })
+    .optional(),
 })
 
-type customerForm = z.infer<typeof formSchema>
+type MobileRepairForm = z.infer<typeof formSchema>
 
 interface Props {
-  currentRow?: any
+  currentRow?: MobileRepair
   open: boolean
   onOpenChange: (open: boolean) => void
   setFetch: any
 }
 
-export function CustomersActionDialog({ currentRow, open, onOpenChange, setFetch }: Props) {
+export function MobileRepairActionDialog({ currentRow, open, onOpenChange, setFetch }: Props) {
   const isEdit = !!currentRow
-  const form = useForm<customerForm>({
+  const form = useForm<MobileRepairForm>({
     resolver: zodResolver(formSchema),
     defaultValues: isEdit
       ? {
           ...currentRow,
+          totalAmount: currentRow?.totalAmount ?? 0,
         }
       : {
           name: '',
-          email: 'customer@gmail.com',
-          phone: '+923',
-          whatsapp: '+923',  // Added whatsapp field
-          address: 'address',
+          phone: '',
+          mobileModel: '',
+          mobileFault: '',
+          totalAmount: 0,
         },
   })
 
   const dispatch = useDispatch<AppDispatch>()
 
-  const onSubmit = async (values: customerForm) => {
+  const onSubmit = async (values: MobileRepairForm) => {
     if (isEdit) {
-      await dispatch(updateCustomer({ ...values, _id: currentRow?.id })).then(() => {
-        toast.success('Customer updated successfully')
+      await dispatch(updateMobileRepair({ ...values, _id: currentRow?.id })).then(() => {
+        toast.success('Mobile Repair updated successfully')
         setFetch((prev: any) => !prev)
       })
     } else {
-      await dispatch(addCustomer(values)).then(() => {
-        toast.success('Customer created successfully')
+      await dispatch(addMobileRepair(values)).then(() => {
+        toast.success('Mobile Repair created successfully')
         setFetch((prev: any) => !prev)
       })
     }
     form.reset()
     onOpenChange(false)
   }
-  
+
   return (
     <Dialog
       open={open}
@@ -86,118 +91,94 @@ export function CustomersActionDialog({ currentRow, open, onOpenChange, setFetch
         onOpenChange(state)
       }}
     >
-      <DialogContent className='sm:max-w-lg'>
-        <DialogHeader className='text-left'>
-          <DialogTitle>{isEdit ? 'Edit Customer' : 'Add New Customer'}</DialogTitle>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader className="text-left">
+          <DialogTitle>{isEdit ? 'Edit Mobile Repair' : 'Add New Mobile Repair'}</DialogTitle>
           <DialogDescription>
-            {isEdit ? 'Update the Customer here.' : 'Create new Customer here.'}
-            Click save when you're done.
+            {isEdit ? 'Update the mobile repair record here.' : 'Create a new mobile repair record here.'} Click save when you're
+            done.
           </DialogDescription>
         </DialogHeader>
-        <div className='-mr-4 h-[26.25rem] w-full overflow-y-auto py-1 pr-4'>
+        <div className="-mr-4 h-[26.25rem] w-full overflow-y-auto py-1 pr-4">
           <Form {...form}>
             <form
-              id='customer-form'
+              id="mobileRepair-form"
               onSubmit={form.handleSubmit(onSubmit)}
-              className='space-y-4 p-0.5'
+              className="space-y-4 p-0.5"
             >
               <FormField
                 control={form.control}
-                name='name'
+                name="name"
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
-                      Customer Name
-                    </FormLabel>
+                  <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                    <FormLabel className="col-span-2 text-right">Name</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder='Customer Name'
-                        className='col-span-4'
-                        autoComplete='off'
-                        {...field}
-                      />
+                      <Input placeholder="Name" className="col-span-4" autoComplete="off" {...field} />
                     </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
+                    <FormMessage className="col-span-4 col-start-3" />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
-                name='email'
+                name="phone"
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
-                      Email
-                    </FormLabel>
+                  <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                    <FormLabel className="col-span-2 text-right">Phone</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder='Customer Email'
-                        className='col-span-4'
-                        autoComplete='off'
-                        {...field}
-                      />
+                      <Input placeholder="Phone" className="col-span-4" autoComplete="off" {...field} />
                     </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
+                    <FormMessage className="col-span-4 col-start-3" />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
-                name='phone'
+                name="mobileModel"
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
-                      Phone
-                    </FormLabel>
+                  <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                    <FormLabel className="col-span-2 text-right">Mobile Model</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder='Customer Phone'
-                        className='col-span-4'
-                        autoComplete='off'
-                        {...field}
-                      />
+                      <Input placeholder="Mobile Model" className="col-span-4" autoComplete="off" {...field} />
                     </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
+                    <FormMessage className="col-span-4 col-start-3" />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
-                name='whatsapp'
+                name="mobileFault"
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
-                      Whatsapp
-                    </FormLabel>
+                  <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                    <FormLabel className="col-span-2 text-right">Mobile Fault</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder='Customer Whatsapp'
-                        className='col-span-4'
-                        autoComplete='off'
-                        {...field}
-                      />
+                      <Input placeholder="Mobile Fault" className="col-span-4" autoComplete="off" {...field} />
                     </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
+                    <FormMessage className="col-span-4 col-start-3" />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
-                name='address'
+                name="totalAmount"
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
-                      Address
-                    </FormLabel>
+                  <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                    <FormLabel className="col-span-2 text-right">Total Amount</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='Customer Address'
-                        className='col-span-4'
-                        autoComplete='off'
+                        placeholder="Total Amount"
+                        className="col-span-4"
+                        autoComplete="off"
+                        type="number"
                         {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
                       />
                     </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
+                    <FormMessage className="col-span-4 col-start-3" />
                   </FormItem>
                 )}
               />
@@ -205,7 +186,7 @@ export function CustomersActionDialog({ currentRow, open, onOpenChange, setFetch
           </Form>
         </div>
         <DialogFooter>
-          <Button type='submit' form='customer-form'>
+          <Button type="submit" form="mobileRepair-form">
             Save changes
           </Button>
         </DialogFooter>

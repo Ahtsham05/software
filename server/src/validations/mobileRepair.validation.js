@@ -34,6 +34,7 @@ const updateMobileRepair = {
     repairId: Joi.string().required(),
   }),
   body: Joi.object().keys({
+    _id: Joi.string(),
     name: Joi.string(),
     phone: Joi.string(),
     mobileModel: Joi.string(),

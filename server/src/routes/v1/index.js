@@ -4,12 +4,13 @@ const userRoute = require('./user.route');
 const productRoute = require('./product.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
-const customerRoute = require('./customer.route'); 
+const customerRoute = require('./customer.route');
 const supplierRoute = require('./supplier.route');
 const purchaseRoute = require('./purchase.route');
-const saleRoute = require('./sale.route'); 
+const saleRoute = require('./sale.route');
 const transactionRoute = require('./transaction.route');
 const accountRoute = require('./account.route');
+const mobileRepairRoute = require('./mobileRepair.route')
 
 const router = express.Router();
 
@@ -27,28 +28,32 @@ const defaultRoutes = [
     route: productRoute,
   },
   {
-    path: '/customers', 
+    path: '/customers',
     route: customerRoute,
   },
   {
-    path: '/suppliers', 
+    path: '/suppliers',
     route: supplierRoute,
   },
-  { 
-    path: '/purchases', 
-    route: purchaseRoute 
+  {
+    path: '/purchases',
+    route: purchaseRoute
   },
-  { 
-    path: '/sales', 
-    route: saleRoute 
-  },  
+  {
+    path: '/sales',
+    route: saleRoute
+  },
   {
     path: '/accounts',
     route: accountRoute,
   },
-  { 
-    path: '/transactions', 
-    route: transactionRoute 
+  {
+    path: '/transactions',
+    route: transactionRoute
+  },
+  {
+    path: '/mobile-repairs',
+    route: mobileRepairRoute
   },
 ];
 

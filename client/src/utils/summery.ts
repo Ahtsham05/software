@@ -206,6 +206,28 @@ const summery = {
     method: 'get'
   },
 
+   // mobile repairs
+  addMobileRepair: {
+    url: '/mobile-repairs',
+    method: 'post',
+  },
+  updateMobileRepair: {
+    url: '/mobile-repairs',
+    method: 'patch',
+  },
+  deleteMobileRepair: {
+    url: '/mobile-repairs',
+    method: 'delete',
+  },
+  fetchMobileRepairs: {
+    url: '/mobile-repairs',
+    method: 'get',
+  },
+  fetchAllMobileRepairs: {
+    url: '/mobile-repairs/all',
+    method: 'get',
+  },
+
 };
 
 export default summery;
