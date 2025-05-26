@@ -135,6 +135,14 @@ const deletePurchaseById = async (purchaseId) => {
   return purchase;
 };
 
+const getPurchaseByDate = async (filter) => {
+  return Purchase.find({
+    purchaseDate: {
+      $gte: filter.startDate,
+      $lte: filter.endDate,
+    },
+  }).populate('items.product');
+};
 
 module.exports = {
   createPurchase,
@@ -142,4 +150,5 @@ module.exports = {
   getPurchaseById,
   updatePurchaseById,
   deletePurchaseById,
+  getPurchaseByDate
 };

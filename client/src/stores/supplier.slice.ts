@@ -69,6 +69,18 @@ export const fetchAllSuppliers = createAsyncThunk(
   })
 )
 
+export const getSupplierPurchaseAndTransactions = createAsyncThunk(
+  'supplier/getSupplierPurchaseAndTransactions',
+  catchAsync(async (params: any) => {
+    const query = new URLSearchParams(params).toString();
+    const response = await Axios({
+      ...summery.getSupplierPurchaseAndTransactions, // Assuming your API for fetching Cutomers is stored in summery
+      url: `${summery.getSupplierPurchaseAndTransactions.url}?${query}`,
+    })
+    return response.data
+  })
+)
+
 const supplierSlice = createSlice({
   name: "supplier",
   initialState,
@@ -117,7 +129,8 @@ const supplierSlice = createSlice({
             addSupplier,
             updateSupplier,
             deleteSupplier,
-            fetchAllSuppliers
+            fetchAllSuppliers,
+            getSupplierPurchaseAndTransactions
           ])
         ),
         handleLoadingErrorParamsForAsycThunk

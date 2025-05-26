@@ -73,6 +73,10 @@ const summery = {
     url: '/customers/all',
     method: 'get'
   },
+  getCustomerSalesAndTransactions: {
+    url: '/customers/ledger',
+    method: 'get'
+  },
 
 
   // suppliers
@@ -94,6 +98,10 @@ const summery = {
   },
   fetchAllSuppliers: {
     url: '/suppliers/all',
+    method: 'get'
+  },
+  getSupplierPurchaseAndTransactions: {
+    url: '/suppliers/ledger',
     method: 'get'
   },
 
@@ -119,6 +127,10 @@ const summery = {
     url: '/purchases',
     method: 'get'
   },
+  getPurchaseByDate: {
+    url: '/purchases/date',
+    method: 'get'
+  },
 
    // sales
   addSale: {
@@ -141,6 +153,10 @@ const summery = {
     url: '/sales',
     method: 'get'
   },
+  getSaleByDate: {
+    url: '/sales/date',
+    method: 'get'
+  },
 
   // account
   addAccount: {
@@ -158,6 +174,36 @@ const summery = {
   fetchAccounts: {
     url: '/accounts',
     method: 'get',
+  },
+  fetchAllAccounts: {
+    url: '/accounts/all',
+    method: 'get'
+  },
+  getAccountDetailsById:{
+    url: '/accounts/ledger',
+    method: 'get'
+  },
+
+   // transaction
+  addTransaction: {
+    url: '/transactions',
+    method: 'post',
+  },
+  updateTransaction: {
+    url: '/transactions',
+    method: 'patch',
+  },
+  deleteTransaction: {
+    url: '/transactions',
+    method: 'delete',
+  },
+  fetchTransactions: {
+    url: '/transactions',
+    method: 'get',
+  },
+  fetchTransactionsByDate: {
+    url: '/transactions/date',
+    method: 'get'
   },
 
 };

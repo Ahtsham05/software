@@ -69,10 +69,18 @@ const deleteSale = {
   }),
 };
 
+const getSaleByDate = {
+  query: Joi.object().keys({
+    startDate: Joi.date().required(),
+    endDate: Joi.date().required(),
+  }),
+};
+
 module.exports = {
   createSale,
   getSales,
   getSale,
   updateSale,
   deleteSale,
+  getSaleByDate,
 };

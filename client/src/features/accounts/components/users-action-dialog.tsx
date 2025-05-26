@@ -94,9 +94,8 @@ export default function AccountActionDialog({
       values.customer = null; // Set customer to null instead of an empty string
     }
     console.log("values", values)
-    if (isEdit && currentAccount?._id) {
-      await dispatch(updateAccount({ ...values, _id: currentAccount._id }))
-        .unwrap()
+    if (isEdit && currentAccount?.id) {
+      await dispatch(updateAccount({ ...values, _id: currentAccount.id }))
         .then(() => {
           toast.success('Account updated successfully')
           setFetch((prev) => !prev)
@@ -104,7 +103,6 @@ export default function AccountActionDialog({
         .catch(() => toast.error('Failed to update account'))
     } else {
       await dispatch(addAccount(values))
-        .unwrap()
         .then(() => {
           toast.success('Account created successfully')
           setFetch((prev) => !prev)
@@ -278,25 +276,6 @@ export default function AccountActionDialog({
 
               <FormField
                 control={form.control}
-                name="balance"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Balance</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Balance"
-                        {...field}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
                 name="transactionType"
                 render={({ field }) => (
                   <FormItem>
@@ -326,6 +305,24 @@ export default function AccountActionDialog({
                 )}
               />
 
+              <FormField
+                control={form.control}
+                name="balance"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Balance</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Balance"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <DialogFooter>
                 <Button type="submit">{isEdit ? 'Update Account' : 'Create Account'}</Button>
               </DialogFooter>

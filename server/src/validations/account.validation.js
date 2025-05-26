@@ -22,7 +22,7 @@ const getAccounts = {
     sortBy: Joi.string(),
     search: Joi.string(),
     fieldName: Joi.string(),
-    populate: Joi.string(),
+    populate: Joi.string().optional(),
   }),
 };
 
@@ -32,11 +32,28 @@ const getAccount = {
   }),
 };
 
+const getAllAccounts = {
+  query: Joi.object().keys({
+    name: Joi.string(),
+    type: Joi.string().valid('receivable', 'payable'),
+    customer: Joi.string(),
+    supplier: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+    sortBy: Joi.string(),
+    search: Joi.string(),
+    fieldName: Joi.string(),
+    populate: Joi.string().optional(),
+  }),
+};
+
 const updateAccount = {
   params: Joi.object().keys({
     accountId: Joi.string().required(),
   }),
   body: Joi.object().keys({
+    id: Joi.string(),
+    _id: Joi.string(),
     name: Joi.string(),
     type: Joi.string().valid('receivable', 'payable'),
     balance: Joi.number(),
@@ -52,10 +69,20 @@ const deleteAccount = {
   }),
 };
 
+const getAccountDetailsById = {
+  query: Joi.object().keys({
+    accountId: Joi.string().required(),
+    startDate: Joi.date().required(),
+    endDate: Joi.date().required(),
+  }),
+};
+
 module.exports = {
   createAccount,
   getAccounts,
   getAccount,
   updateAccount,
   deleteAccount,
+  getAllAccounts,
+  getAccountDetailsById
 };

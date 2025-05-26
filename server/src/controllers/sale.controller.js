@@ -44,10 +44,21 @@ const deleteSale = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getSaleByDate = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['startDate', 'endDate']);
+  const sale = await saleService.getSaleByDate(filter);
+  if (!sale) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Sale not found');
+  }
+  res.send(sale);
+});
+
+
 module.exports = {
   createSale,
   getSales,
   getSale,
   updateSale,
   deleteSale,
+  getSaleByDate
 };

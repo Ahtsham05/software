@@ -34,10 +34,17 @@ const getLedgerEntries = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getTransactionsByDate = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['startDate', 'endDate']);
+  const result = await transactionService.queryTransactionsByDate(filter);
+  res.send(result);
+});
+
 module.exports = {
   createTransaction,
   createVoucher,
   getTransactions,
   getVouchers,
   getLedgerEntries,
+  getTransactionsByDate
 };

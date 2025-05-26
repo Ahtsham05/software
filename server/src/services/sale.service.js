@@ -123,10 +123,23 @@ const deleteSaleById = async (saleId) => {
   return sale;
 };
 
+
+const getSaleByDate = async (filter) => {
+  const sale = await Sale.find({
+    saleDate: {
+      $gte: new Date(filter.startDate),
+      $lte: new Date(filter.endDate),
+    },
+  }).populate('items.product');
+  return sale;
+};
+
+
 module.exports = {
   createSale,
   querySales,
   getSaleById,
   updateSaleById,
   deleteSaleById,
+  getSaleByDate,
 };

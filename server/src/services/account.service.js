@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const {Account} = require('../models');
+const {Account, Transaction} = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -61,10 +61,50 @@ const deleteAccountById = async (accountId) => {
   return account;
 };
 
+const getAllAccounts = async () => {
+  return Account.find().populate('customer supplier');
+};
+
+const getAccountDetailsById = async (filter) => {
+  try {
+    const start = new Date(filter.startDate);
+    const end = new Date(filter.endDate);
+    end.setHours(23, 59, 59, 999); // Set end date to end of the day
+
+    const account = await Account.find({ _id: filter.accountId });
+    if (!account || account.length === 0) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Account not found');
+    }
+
+    // Fetch all transactions (cashReceived) within the specified date range
+    const transactions = await Transaction.find({
+      account: account[0]._id,
+      transactionDate: { $gte: start, $lte: end }
+    });
+
+    // Fetch all transactions (cashReceived) before the start date
+    const previousTransactions = await Transaction.find({
+      account: account[0]._id,
+      transactionDate: { $lt: start }
+    });
+
+    return {
+      account,
+      previousTransactions,
+      transactions
+    };
+  } catch (error) {
+    throw new ApiError(500, 'Error fetching sales and transactions', error.message);
+  }
+};
+
+
 module.exports = {
   createAccount,
   queryAccounts,
   getAccountById,
   updateAccountById,
   deleteAccountById,
+  getAllAccounts,
+  getAccountDetailsById
 };

@@ -20,4 +20,8 @@ router
   .route('/ledger')
   .get(auth('getLedger'), validate(transactionValidation.getLedgerEntries), transactionController.getLedgerEntries);
 
+router 
+  .route('/date')
+  .get(auth('getLedger'), validate(transactionValidation.getTransactionsByDate), transactionController.getTransactionsByDate);
+
 module.exports = router;

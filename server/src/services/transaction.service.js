@@ -76,7 +76,18 @@ const createVoucher = async (voucherBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryTransactions = async (filter, options) => {
+   options.populate = 'account';
   const transactions = await Transaction.paginate(filter, options);
+  return transactions;
+};
+
+const queryTransactionsByDate = async (filter) => {
+  const transactions = await Transaction.find({
+    transactionDate:{
+      $gte: new Date(filter.startDate),
+      $lte: new Date(filter.endDate),
+    },
+  });
   return transactions;
 };
 
@@ -108,4 +119,5 @@ module.exports = {
   queryTransactions,
   queryVouchers,
   queryLedgerEntries,
+  queryTransactionsByDate
 };

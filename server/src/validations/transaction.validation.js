@@ -11,6 +11,13 @@ const createTransaction = {
   }),
 };
 
+const getTransactionsByDate = {
+  query: Joi.object().keys({
+    startDate: Joi.date().required(),
+    endDate: Joi.date().required(),
+  }),
+};
+
 const getTransactions = {
   query: Joi.object().keys({
     account: Joi.string(),
@@ -21,6 +28,7 @@ const getTransactions = {
     sortBy: Joi.string(),
     search: Joi.string(),
     fieldName: Joi.string(),
+    populate: Joi.string().optional(),
   }),
 };
 
@@ -57,4 +65,5 @@ module.exports = {
   getTransaction,
   updateTransaction,
   deleteTransaction,
+  getTransactionsByDate
 };

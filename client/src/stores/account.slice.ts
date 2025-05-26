@@ -33,6 +33,16 @@ export const fetchAccounts = createAsyncThunk(
   }),
 );
 
+export const fetchAllAccounts = createAsyncThunk(
+  'account/fetchAllAccounts',
+  catchAsync(async () => {
+    const response = await Axios({
+      ...summery.fetchAllAccounts,
+    });
+    return response.data;
+  }),
+)
+
 export const addAccount = createAsyncThunk(
   'account/addAccount',
   catchAsync(async (data: any) => {
@@ -67,6 +77,18 @@ export const deleteAccount = createAsyncThunk(
   }),
 );
 
+export const getAccountDetailsById = createAsyncThunk(
+  'account/getAccountDetailsById',
+  catchAsync(async (params: any) => {
+     const query = new URLSearchParams(params).toString();
+    const response = await Axios({
+      ...summery.getAccountDetailsById,
+      url: `${summery.getAccountDetailsById.url}?${query}`,
+    });
+    return response.data;
+  }),
+)
+
 const accountSlice = createSlice({
   name: 'account',
   initialState,
@@ -77,8 +99,8 @@ const accountSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAccounts.fulfilled, (state, action) => {
-        state.data = action.payload;
+      .addCase(fetchAllAccounts.fulfilled, (state, action) => {
+        state.data = action.payload?.map((account: any) => ({ value: account.id, label: account.name, ...account }));
       })
       .addCase(addAccount.fulfilled, (state, action) => {
         if (state.data?.length) {
@@ -100,7 +122,8 @@ const accountSlice = createSlice({
         }
       })
       .addMatcher(
-        isAnyOf(...reduxToolKitCaseBuilder([fetchAccounts, addAccount, updateAccount, deleteAccount])),
+        isAnyOf(...reduxToolKitCaseBuilder([fetchAccounts, 
+          addAccount, updateAccount, deleteAccount, fetchAllAccounts])),
         handleLoadingErrorParamsForAsycThunk,
       );
   },

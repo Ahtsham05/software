@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const { customerService } = require('../services');
 const pick = require('../utils/pick');
+const { Sale, Transaction } = require('../models');
 
 const createCustomer = catchAsync(async (req, res) => {
   const customer = await customerService.createCustomer(req.body);
@@ -38,11 +39,21 @@ const getAllCustomers = catchAsync(async (req, res) => {
   res.send(customers);
 })
 
+
+const getCustomerSalesAndTransactions = catchAsync(async (req, res) => {
+  const { customerId, startDate, endDate } = req.query;
+  // Call the service to get the sales and transactions
+  const results = await customerService.getCustomerSalesAndTransactions(customerId, startDate, endDate);
+  res.send(results);
+});
+
+
 module.exports = {
   createCustomer,
   getCustomers,
   getCustomer,
   updateCustomer,
   deleteCustomer,
-  getAllCustomers
+  getAllCustomers,
+  getCustomerSalesAndTransactions
 };

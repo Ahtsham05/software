@@ -77,6 +77,17 @@ export const fetchSaleById = createAsyncThunk(
   })
 )
 
+export const getSaleByDate = createAsyncThunk(
+  'sale/getSaleByDate',
+  catchAsync(async (filter: any) => {
+    const response = await Axios({
+      ...summery.getSaleByDate, // Assuming your API for fetching sales by date
+      url: `${summery.getSaleByDate.url}?startDate=${filter.startDate}&endDate=${filter.endDate}`,
+    });
+    return response.data;
+  })
+)
+
 const saleSlice = createSlice({
   name: "sale",
   initialState,

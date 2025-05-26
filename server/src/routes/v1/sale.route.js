@@ -12,6 +12,10 @@ router
   .get(auth('getSales'), validate(saleValidation.getSales), saleController.getSales);
 
 router
+  .route('/date')
+  .get(auth('manageSales'), validate(saleValidation.getSaleByDate), saleController.getSaleByDate); 
+
+router
   .route('/:saleId')
   .get(auth('getSales'), validate(saleValidation.getSale), saleController.getSale)
   .patch(auth('manageSales'), validate(saleValidation.updateSale), saleController.updateSale)

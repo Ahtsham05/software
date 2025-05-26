@@ -16,6 +16,11 @@ const getAccounts = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getAllAccounts = catchAsync(async (req, res) => {
+  const accounts = await accountService.getAllAccounts();
+  res.send(accounts);
+});
+
 const getAccount = catchAsync(async (req, res) => {
   const account = await accountService.getAccountById(req.params.accountId);
   if (!account) {
@@ -34,10 +39,27 @@ const deleteAccount = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getAccountDetailsById = catchAsync(async (req, res) => {
+  const { accountId, startDate, endDate } = req.query;
+  const filter = {
+    accountId,
+    startDate,
+    endDate
+  };
+  const account = await accountService.getAccountDetailsById(filter);
+  if (!account) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Account not found');
+  }
+  res.send(account);
+});
+
+
 module.exports = {
   createAccount,
   getAccounts,
   getAccount,
   updateAccount,
   deleteAccount,
+  getAllAccounts,
+  getAccountDetailsById
 };

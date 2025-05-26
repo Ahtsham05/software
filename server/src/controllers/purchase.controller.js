@@ -50,10 +50,20 @@ const deletePurchase = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getPurchaseByDate = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['startDate', 'endDate']);
+  const purchase = await purchaseService.getPurchaseByDate(filter);
+  if (!purchase) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Purchase not found');
+  }
+  res.send(purchase);
+});
+
 module.exports = {
   createPurchase,
   getPurchases,
   getPurchase,
   updatePurchase,
   deletePurchase,
+  getPurchaseByDate
 };

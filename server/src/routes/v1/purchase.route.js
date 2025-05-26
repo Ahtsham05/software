@@ -12,6 +12,10 @@ router
   .get(auth('getPurchases'), validate(purchaseValidation.getPurchases), purchaseController.getPurchases);
 
 router
+  .route('/date')
+  .get(auth('managePurchases'), validate(purchaseValidation.getPurchaseByDate), purchaseController.getPurchaseByDate);
+
+router
   .route('/:purchaseId')
   .get(auth('getPurchases'), validate(purchaseValidation.getPurchase), purchaseController.getPurchase)
   .patch(auth('managePurchases'), validate(purchaseValidation.updatePurchase), purchaseController.updatePurchase)

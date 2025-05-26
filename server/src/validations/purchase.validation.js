@@ -61,10 +61,18 @@ const deletePurchase = {
   }),
 };
 
+const getPurchaseByDate = {
+  query: Joi.object().keys({
+    startDate: Joi.date(),
+    endDate: Joi.date(),
+  }),
+};
+
 module.exports = {
   createPurchase,
   getPurchases,
   getPurchase,
   updatePurchase,
   deletePurchase,
+  getPurchaseByDate
 };

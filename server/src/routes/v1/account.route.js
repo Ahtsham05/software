@@ -12,6 +12,14 @@ router
   .get(auth('getAccounts'), validate(accountValidation.getAccounts), accountController.getAccounts);
 
 router
+  .route('/all')
+  .get(auth('getAccounts'), validate(accountValidation.getAllAccounts), accountController.getAllAccounts);
+
+router
+  .route('/ledger')
+  .get(auth('manageAccounts'), validate(accountValidation.getAccountDetailsById), accountController.getAccountDetailsById);
+
+router
   .route('/:accountId')
   .get(auth('getAccounts'), validate(accountValidation.getAccount), accountController.getAccount)
   .patch(auth('manageAccounts'), validate(accountValidation.updateAccount), accountController.updateAccount)

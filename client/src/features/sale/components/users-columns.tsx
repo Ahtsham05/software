@@ -51,11 +51,11 @@ export const columns: ColumnDef<sale>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title='Total Amount' />,  // Changed to Total Amount
     cell: ({ row }) => <div>{row.getValue('totalAmount')}</div>,
   },
-  {
-    accessorKey: 'totalProfit',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Total Profit' />,  // Added Total Profit for Sales
-    cell: ({ row }) => <div>{row.getValue('totalProfit')}</div>,
-  },
+  // {
+  //   accessorKey: 'totalProfit',
+  //   header: ({ column }) => <DataTableColumnHeader column={column} title='Total Profit' />,  // Added Total Profit for Sales
+  //   cell: ({ row }) => <div>{row.getValue('totalProfit')}</div>,
+  // },
   {
     id: 'actions',
     header: "Actions",

@@ -76,6 +76,17 @@ export const fetchPurchaseById = createAsyncThunk(
   })
 )
 
+export const getPurchaseByDate = createAsyncThunk(
+  'purchase/getPurchaseByDate',
+  catchAsync(async (filter: any) => {
+    const response = await Axios({
+      ...summery.getPurchaseByDate, // Assuming your API for fetching purchases by date
+      url: `${summery.getPurchaseByDate.url}?startDate=${filter.startDate}&endDate=${filter.endDate}`,
+    });
+    return response.data;
+  })
+)
+
 const purchaseSlice = createSlice({
   name: "purchase",
   initialState,
@@ -120,7 +131,8 @@ const purchaseSlice = createSlice({
             addPurchase,
             updatePurchase,
             deletePurchase,
-            fetchPurchaseById
+            fetchPurchaseById,
+            getPurchaseByDate
           ])
         ),
         handleLoadingErrorParamsForAsycThunk

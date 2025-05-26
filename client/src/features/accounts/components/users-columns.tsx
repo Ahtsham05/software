@@ -29,14 +29,16 @@ export const columns: ColumnDef<Account>[] = [
   {
     accessorKey: 'type',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Type" />,
-  },
-  {
-    accessorKey: 'balance',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Balance" />,
+    cell:({getValue})=> getValue() === "receivable" ? "Receivable" : "Payable",
   },
   {
     accessorKey: 'transactionType',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Transaction Type" />,
+    cell:({getValue})=> getValue() === "cashReceived" ? "Cash Received" : getValue() === "generalLedger" ? "General Ledger" : "Expense Voucher",
+  },
+    {
+    accessorKey: 'balance',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Balance" />,
   },
   {
     id: 'actions',
