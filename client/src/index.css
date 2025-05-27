@@ -182,7 +182,7 @@
   }
 }
 
-
+/* 
 @media print {
       body * {
         visibility: hidden;
@@ -197,4 +197,4 @@
         width: 100%;
         max-width: 100%;
       }
-    }
+    } */

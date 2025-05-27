@@ -157,6 +157,10 @@ const summery = {
     url: '/sales/date',
     method: 'get'
   },
+  getInvoiceNumber: {
+    url: '/sales/invoice-number',
+    method: 'get'
+  },
 
   // account
   addAccount: {

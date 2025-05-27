@@ -19,6 +19,14 @@ const createSale = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(sale);
 });
 
+const getInvoiceNumber = catchAsync(async (req, res) => {
+  const lastSale = await saleService.querySales({}, { limit: 1, page: 1, sortBy: 'invoiceNumber:desc' });
+
+  const lastInvoiceNumber = lastSale?.results && lastSale?.results?.length > 0 ? parseInt(lastSale?.results[0]?.invoiceNumber.replace('INV-', '')) : 5000; // Default to 5000 if no previous sales
+  const newInvoiceNumber = `INV-${lastInvoiceNumber + 1}`;
+  res.send({ invoiceNumber: newInvoiceNumber });
+});
+
 const getSales = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['customer', 'saleDate']);
   const options = pick(req.query, ['sortBy', 'limit', 'page', 'search', 'fieldName']);
@@ -60,5 +68,6 @@ module.exports = {
   getSale,
   updateSale,
   deleteSale,
-  getSaleByDate
+  getSaleByDate,
+  getInvoiceNumber,
 };

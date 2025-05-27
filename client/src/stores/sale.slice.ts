@@ -88,6 +88,16 @@ export const getSaleByDate = createAsyncThunk(
   })
 )
 
+export const getInvoiceNumber = createAsyncThunk(
+  'sale/getInvoiceNumber',
+  catchAsync(async () => {
+    const response = await Axios({
+      ...summery.getInvoiceNumber, // Assuming your API for fetching the next invoice number
+    });
+    return response.data;
+  })
+);
+
 const saleSlice = createSlice({
   name: "sale",
   initialState,
@@ -132,7 +142,8 @@ const saleSlice = createSlice({
             addSale,
             updateSale,
             deleteSale,
-            fetchSaleById
+            fetchSaleById,
+            getInvoiceNumber
           ])
         ),
         handleLoadingErrorParamsForAsycThunk
