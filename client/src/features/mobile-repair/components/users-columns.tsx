@@ -55,7 +55,22 @@ export const columns: ColumnDef<MobileRepair>[] = [
   {
     accessorKey: 'totalAmount',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Total Amount" />,
-    cell: ({ row }) => <div>Rs.{row.getValue('totalAmount') ?? '0.00'}</div>,
+    cell: ({ row }) => <div>Rs.{row.getValue('totalAmount') ?? 0}</div>,
+  },
+  {
+    accessorKey: 'advance',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Advance" />,
+    cell: ({ row }) => <div>Rs.{row.getValue('advance') ?? 0}</div>,
+  },
+  {
+    accessorKey: 'balance',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Balance" />,
+    cell: ({ row }) => {
+      const totalAmount = Number(row.getValue('totalAmount')) || 0; // Ensure it's a number
+      const advance = Number(row.getValue('advance')) || 0; // Ensure it's a number
+      const balance = totalAmount - advance;
+      return <div>Rs.{balance}</div>;
+    },
   },
   {
     id: 'actions',

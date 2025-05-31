@@ -8,9 +8,9 @@ interface TransactionsDialogsProps {
 }
 
 export default function TransactionsDialogs({ setFetch }: TransactionsDialogsProps) {
-  const { open, setOpen, currentTransaction, setCurrentRow } = useTransactions();
+  const { open, setOpen, currentRow, setCurrentRow } = useTransactions();
 
-  const hasValidId = !!currentTransaction?._id;
+  const hasValidId = !!currentRow?._id;
 
   return (
     <>
@@ -21,28 +21,28 @@ export default function TransactionsDialogs({ setFetch }: TransactionsDialogsPro
         onOpenChange={(openState) => setOpen(openState ? 'add' : null)}
       />
 
-      {currentTransaction && hasValidId && (
+      {currentRow && hasValidId && (
         <>
           <TransactionActionDialog
-            key={`transaction-edit-${currentTransaction._id}`}
+            key={`transaction-edit-${currentRow._id}`}
             setFetch={setFetch}
             open={open === 'edit'}
             onOpenChange={() => {
               setOpen('edit');
               setTimeout(() => setCurrentRow(null), 500);
             }}
-            currentTransaction={currentTransaction}
+            currentRow={currentRow}
           />
 
           <TransactionDeleteDialog
-            key={`transaction-delete-${currentTransaction._id}`}
+            key={`transaction-delete-${currentRow._id}`}
             open={open === 'delete'}
             setFetch={setFetch}
             onOpenChange={() => {
               setOpen('delete');
               setTimeout(() => setCurrentRow(null), 500);
             }}
-            currentTransaction={currentTransaction}
+            currentRow={currentRow}
           />
         </>
       )}

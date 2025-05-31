@@ -47,6 +47,7 @@ import { Route as AuthenticatedPurchaseLedgerIndexImport } from './routes/_authe
 import { Route as AuthenticatedPurchaseAddIndexImport } from './routes/_authenticated/purchase-add/index'
 import { Route as AuthenticatedProductsIndexImport } from './routes/_authenticated/products/index'
 import { Route as AuthenticatedMobileRepairIndexImport } from './routes/_authenticated/mobile-repair/index'
+import { Route as AuthenticatedMobileLoadIndexImport } from './routes/_authenticated/mobile-load/index'
 import { Route as AuthenticatedHelpCenterIndexImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedCustomersIndexImport } from './routes/_authenticated/customers/index'
 import { Route as AuthenticatedCustomerLedgerIndexImport } from './routes/_authenticated/customer-ledger/index'
@@ -298,6 +299,13 @@ const AuthenticatedMobileRepairIndexRoute =
   AuthenticatedMobileRepairIndexImport.update({
     id: '/mobile-repair/',
     path: '/mobile-repair/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
+const AuthenticatedMobileLoadIndexRoute =
+  AuthenticatedMobileLoadIndexImport.update({
+    id: '/mobile-load/',
+    path: '/mobile-load/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -591,6 +599,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHelpCenterIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/mobile-load/': {
+      id: '/_authenticated/mobile-load/'
+      path: '/mobile-load'
+      fullPath: '/mobile-load'
+      preLoaderRoute: typeof AuthenticatedMobileLoadIndexImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
     '/_authenticated/mobile-repair/': {
       id: '/_authenticated/mobile-repair/'
       path: '/mobile-repair'
@@ -748,6 +763,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCustomerLedgerIndexRoute: typeof AuthenticatedCustomerLedgerIndexRoute
   AuthenticatedCustomersIndexRoute: typeof AuthenticatedCustomersIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
+  AuthenticatedMobileLoadIndexRoute: typeof AuthenticatedMobileLoadIndexRoute
   AuthenticatedMobileRepairIndexRoute: typeof AuthenticatedMobileRepairIndexRoute
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
   AuthenticatedPurchaseAddIndexRoute: typeof AuthenticatedPurchaseAddIndexRoute
@@ -776,6 +792,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCustomerLedgerIndexRoute: AuthenticatedCustomerLedgerIndexRoute,
   AuthenticatedCustomersIndexRoute: AuthenticatedCustomersIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
+  AuthenticatedMobileLoadIndexRoute: AuthenticatedMobileLoadIndexRoute,
   AuthenticatedMobileRepairIndexRoute: AuthenticatedMobileRepairIndexRoute,
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
   AuthenticatedPurchaseAddIndexRoute: AuthenticatedPurchaseAddIndexRoute,
@@ -829,6 +846,7 @@ export interface FileRoutesByFullPath {
   '/customer-ledger': typeof AuthenticatedCustomerLedgerIndexRoute
   '/customers': typeof AuthenticatedCustomersIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
+  '/mobile-load': typeof AuthenticatedMobileLoadIndexRoute
   '/mobile-repair': typeof AuthenticatedMobileRepairIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
   '/purchase-add': typeof AuthenticatedPurchaseAddIndexRoute
@@ -877,6 +895,7 @@ export interface FileRoutesByTo {
   '/customer-ledger': typeof AuthenticatedCustomerLedgerIndexRoute
   '/customers': typeof AuthenticatedCustomersIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
+  '/mobile-load': typeof AuthenticatedMobileLoadIndexRoute
   '/mobile-repair': typeof AuthenticatedMobileRepairIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
   '/purchase-add': typeof AuthenticatedPurchaseAddIndexRoute
@@ -928,6 +947,7 @@ export interface FileRoutesById {
   '/_authenticated/customer-ledger/': typeof AuthenticatedCustomerLedgerIndexRoute
   '/_authenticated/customers/': typeof AuthenticatedCustomersIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
+  '/_authenticated/mobile-load/': typeof AuthenticatedMobileLoadIndexRoute
   '/_authenticated/mobile-repair/': typeof AuthenticatedMobileRepairIndexRoute
   '/_authenticated/products/': typeof AuthenticatedProductsIndexRoute
   '/_authenticated/purchase-add/': typeof AuthenticatedPurchaseAddIndexRoute
@@ -980,6 +1000,7 @@ export interface FileRouteTypes {
     | '/customer-ledger'
     | '/customers'
     | '/help-center'
+    | '/mobile-load'
     | '/mobile-repair'
     | '/products'
     | '/purchase-add'
@@ -1027,6 +1048,7 @@ export interface FileRouteTypes {
     | '/customer-ledger'
     | '/customers'
     | '/help-center'
+    | '/mobile-load'
     | '/mobile-repair'
     | '/products'
     | '/purchase-add'
@@ -1076,6 +1098,7 @@ export interface FileRouteTypes {
     | '/_authenticated/customer-ledger/'
     | '/_authenticated/customers/'
     | '/_authenticated/help-center/'
+    | '/_authenticated/mobile-load/'
     | '/_authenticated/mobile-repair/'
     | '/_authenticated/products/'
     | '/_authenticated/purchase-add/'
@@ -1177,6 +1200,7 @@ export const routeTree = rootRoute
         "/_authenticated/customer-ledger/",
         "/_authenticated/customers/",
         "/_authenticated/help-center/",
+        "/_authenticated/mobile-load/",
         "/_authenticated/mobile-repair/",
         "/_authenticated/products/",
         "/_authenticated/purchase-add/",
@@ -1300,6 +1324,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/help-center/": {
       "filePath": "_authenticated/help-center/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/mobile-load/": {
+      "filePath": "_authenticated/mobile-load/index.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/mobile-repair/": {

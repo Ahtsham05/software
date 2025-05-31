@@ -36,6 +36,7 @@ const formSchema = z.object({
   mobileModel: z.string().optional(),
   mobileFault: z.string().optional(),
   totalAmount: z.number().min(0, { message: 'Total Amount must be positive' }).optional(),
+  advance: z.number().min(0, { message: 'Advance must be positive' }).optional(),
 })
 
 type MobileRepairForm = z.infer<typeof formSchema>
@@ -62,6 +63,7 @@ export function MobileRepairActionDialog({ currentRow, open, onOpenChange, setFe
         mobileModel: '',
         mobileFault: '',
         totalAmount: 0,
+        advance: 0,
       },
   })
 
@@ -227,6 +229,27 @@ export function MobileRepairActionDialog({ currentRow, open, onOpenChange, setFe
                     </FormItem>
                   )}
                 />
+
+                <FormField
+                  control={form.control}
+                  name="advance"
+                  render={({ field }) => (
+                    <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                      <FormLabel className="col-span-2 text-right">Advance Amount</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Advance Amount"
+                          className="col-span-4"
+                          autoComplete="off"
+                          type="number"
+                          {...field}
+                          onChange={(e) => field.onChange(Number(e.target.value))}
+                        />
+                      </FormControl>
+                      <FormMessage className="col-span-4 col-start-3" />
+                    </FormItem>
+                  )}
+                />
               </form>
             </Form>
 
@@ -270,6 +293,18 @@ export function MobileRepairActionDialog({ currentRow, open, onOpenChange, setFe
                     <tr>
                       <td className="text-left font-bold text-gray-700">Total</td>
                       <td className="text-right font-bold text-gray-700">Rs.{form.getValues('totalAmount') ?? 0}</td>
+                    </tr>
+                    <tr>
+                      <td className="text-left font-bold text-gray-700">Advance</td>
+                      <td className="text-right font-bold text-gray-700">Rs.{form.getValues('advance') ?? 0}</td>
+                    </tr>
+                    <tr>
+                      <td className="text-left font-bold text-gray-700">Due Amount</td>
+                      <td className="text-right font-bold text-gray-700">
+                        Rs. {(
+                          (form.getValues('totalAmount') || 0) - (form.getValues('advance') || 0)
+                        )}
+                      </td>
                     </tr>
                   </tfoot>
                 </table>

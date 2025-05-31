@@ -7,6 +7,7 @@ const createMobileRepair = {
     mobileModel: Joi.string(),
     mobileFault: Joi.string(),
     totalAmount: Joi.number(),
+    advance: Joi.number(),
   }),
 };
 
@@ -40,6 +41,7 @@ const updateMobileRepair = {
     mobileModel: Joi.string(),
     mobileFault: Joi.string(),
     totalAmount: Joi.number(),
+    advance: Joi.number(),
   }),
 };
 

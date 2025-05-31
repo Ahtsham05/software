@@ -14,7 +14,7 @@ const createVoucher = catchAsync(async (req, res) => {
 });
 
 const getTransactions = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['transactionType']);
+  const filter = pick(req.query, ['transactionType', 'account']);
   const options = pick(req.query, ['limit', 'page', 'sortBy']);
   const result = await transactionService.queryTransactions(filter, options);
   res.send(result);

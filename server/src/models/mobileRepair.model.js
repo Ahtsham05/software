@@ -7,6 +7,7 @@ const MobileRepairSchema = new mongoose.Schema({
   mobileModel: { type: String },
   mobileFault: { type: String },
   totalAmount: { type: Number },
+  advance: { type: Number },
 }, {
   timestamps: true,
 });

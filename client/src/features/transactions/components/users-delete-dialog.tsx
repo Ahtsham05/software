@@ -14,25 +14,25 @@ import toast from 'react-hot-toast';
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  currentTransaction: any;
+  currentRow: any;
   setFetch: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function TransactionDeleteDialog({
   open,
   onOpenChange,
-  currentTransaction,
+  currentRow,
   setFetch,
 }: Props) {
   const [value, setValue] = useState('');
   const dispatch = useDispatch<AppDispatch>();
 
   const handleDelete = async () => {
-    if (value.trim() !== currentTransaction.description) return;
+    if (value.trim() !== currentRow.description) return;
 
     onOpenChange(false);
     try {
-      await dispatch(deleteTransaction(currentTransaction._id)).unwrap();
+      await dispatch(deleteTransaction(currentRow._id)).unwrap();
       toast.success('Transaction deleted successfully');
       setFetch((prev) => !prev);
     } catch {
@@ -45,7 +45,7 @@ export default function TransactionDeleteDialog({
       open={open}
       onOpenChange={onOpenChange}
       handleConfirm={handleDelete}
-      disabled={value.trim() !== currentTransaction.description}
+      disabled={value.trim() !== currentRow.description}
       title={
         <span className="text-destructive">
           <IconAlertTriangle className="stroke-destructive mr-1 inline-block" size={18} /> Delete
@@ -56,7 +56,7 @@ export default function TransactionDeleteDialog({
         <div className="space-y-4">
           <p className="mb-2">
             Are you sure you want to delete{' '}
-            <span className="font-bold">{currentTransaction.description}</span>? This action will
+            <span className="font-bold">{currentRow.description}</span>? This action will
             permanently remove this transaction. This cannot be undone.
           </p>
 

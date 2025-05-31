@@ -1,12 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/stores/store';
-import { addTransaction, updateTransaction } from '@/stores/transaction.slice';
+import { addTransaction, fetchTransactions, updateTransaction } from '@/stores/transaction.slice';
 import toast from 'react-hot-toast';
 
 import { Button } from '@/components/ui/button';
@@ -29,7 +29,9 @@ import {
 import { Input } from '@/components/ui/input';
 import Select from 'react-select';
 
-import { Transaction } from '../data/schema';
+import { Transaction } from './data/schema';
+import { useNavigate } from '@tanstack/react-router';
+import { getAccountDetailsById } from '@/stores/account.slice';
 
 const transactionSchema = z.object({
   account: z.string().min(1, { message: 'Account is required' }),
@@ -43,33 +45,71 @@ const transactionSchema = z.object({
 type TransactionFormValues = z.infer<typeof transactionSchema>;
 
 interface TransactionActionDialogProps {
-  setFetch: React.Dispatch<React.SetStateAction<boolean>>;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  currentRow?: Transaction | null;
+//   setFetch: React.Dispatch<React.SetStateAction<boolean>>;
+//   open: boolean;
+//   onOpenChange: (open: boolean) => void;
+  currentTransaction?: Transaction | null;
 }
 
 export default function TransactionActionDialog({
-  setFetch,
-  open,
-  onOpenChange,
-  currentRow,
+//   setFetch,
+//   open,
+//   onOpenChange,
+  currentTransaction,
 }: TransactionActionDialogProps) {
-  const isEdit = Boolean(currentRow);
-  const dispatch = useDispatch<AppDispatch>();
+  const isEdit = Boolean(currentTransaction);
   const accountsOptions = useSelector((state: any) => state.account?.data);
-  // console.log("accountsOptions", accountsOptions)
+  const [formState, setFormState] = React.useState(true);
+  const [selectedAccount, setSelectedAccount] = React.useState(null);
 
+    const dispatch = useDispatch<AppDispatch>();
+    const [previousBalance, setPreviousBalance] = React.useState(0);
+
+  
+    useEffect(() => {
+    //   const startDate = new Date().toISOString().split('T')[0];
+    //   const endDate = new Date().toISOString().split('T')[0];
+      const fetchTransactionss = async () => {
+        const params = {
+          account: selectedAccount,
+        };
+        await dispatch(fetchTransactions(params)).then((action) => {
+          // Process the payload directly in this effect
+          const accountDetails = action.payload;
+          // Calculate previous balance from previous sales and transactions
+          let previousTransactionsTotal = 0;
+   
+          accountDetails?.results?.forEach((transaction: any) => {
+            if (transaction.transactionType === "cashReceived") {
+              previousTransactionsTotal -= transaction.amount;
+            } else {
+              previousTransactionsTotal += transaction.amount;
+            }
+          });
+        //   console.log("previousBalance",previousTransactionsTotal)
+          const previousBalancee = previousTransactionsTotal;
+          setPreviousBalance(previousBalancee);
+        });
+      };
+      if(selectedAccount){
+        fetchTransactionss();
+      }
+    }, [selectedAccount, dispatch]);
+  
+// console.log("previousBalance", previousBalance)
+// console.log("selectedAccount", selectedAccount)
+  // console.log("accountsOptions", accountsOptions)
+const navigate = useNavigate()
   const form = useForm<TransactionFormValues>({
     resolver: zodResolver(transactionSchema),
     defaultValues: isEdit
       ? {
-        account: currentRow?.account ?? '',
-        amount: currentRow?.amount ?? 0,
-        transactionType: currentRow?.transactionType ?? 'cashReceived',
-        transactionDate: currentRow?.transactionDate ?? '',
-        description: currentRow?.description ?? '',
-        status: currentRow?.status ?? 'pending',
+        account: currentTransaction?.account ?? '',
+        amount: currentTransaction?.amount ?? 0,
+        transactionType: currentTransaction?.transactionType ?? 'cashReceived',
+        transactionDate: currentTransaction?.transactionDate ?? '',
+        description: currentTransaction?.description ?? '',
+        status: currentTransaction?.status ?? 'pending',
       }
       : {
         account: '',
@@ -82,37 +122,32 @@ export default function TransactionActionDialog({
   });
 
   const onSubmit = async (values: any) => {
-    try {
-      if (isEdit && currentRow?._id) {
-        await dispatch(updateTransaction({ ...values, _id: currentRow._id }))
-          .unwrap()
+      if (isEdit && currentTransaction?._id) {
+        await dispatch(updateTransaction({ ...values, _id: currentTransaction._id, amount: previousBalance - values.amount }))
           .then(() => {
             toast.success('Transaction updated successfully');
-            setFetch((prev) => !prev);
+            // setFetch((prev) => !prev);
+            navigate({ to: '/transactions', replace: true })
           })
-          .catch(() => toast.error('Failed to update transaction'));
       } else {
-        await dispatch(addTransaction(values))
-          .unwrap()
+        await dispatch(addTransaction({...values, amount: previousBalance - values.amount}))
           .then(() => {
             toast.success('Transaction created successfully');
-            setFetch((prev) => !prev);
+            // setFetch((prev) => !prev);
+            navigate({ to: '/transactions', replace: true })
           })
-          .catch(() => toast.error('Failed to create transaction'));
       }
       form.reset();
-      onOpenChange(false);
-    } catch (error) {
-      toast.error('Operation failed');
-    }
+    //   onOpenChange(false);
   };
 
   return (
     <Dialog
-      open={open}
-      onOpenChange={(state) => {
+      open={formState}
+      onOpenChange={() => {
         form.reset();
-        onOpenChange(state);
+        setFormState(false)
+        navigate({ to: '/transactions', replace: true })
       }}
     >
       <DialogContent className="sm:max-w-lg">
@@ -138,7 +173,7 @@ export default function TransactionActionDialog({
                   </FormItem>
                 )}
               /> */}
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="transactionDate"
                 render={({ field }) => (
@@ -150,7 +185,7 @@ export default function TransactionActionDialog({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
               <FormField
                 control={form.control}
                 name="account"
@@ -170,6 +205,7 @@ export default function TransactionActionDialog({
                             onChange={(option) => {
                               // console.log("option", option)
                               field.onChange(option?.value); // Ensure we are passing the correct value
+                              setSelectedAccount(option?.value);
                             }}
                             styles={{
                               control: (base: any) => ({
@@ -231,7 +267,7 @@ export default function TransactionActionDialog({
                 )}
               />
 
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="transactionType"
                 render={({ field }) => (
@@ -308,7 +344,7 @@ export default function TransactionActionDialog({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
 
               {/* <FormField
                 control={form.control}
@@ -407,11 +443,11 @@ export default function TransactionActionDialog({
                 name="amount"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Amount</FormLabel>
+                    <FormLabel>Closing Amount</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Amount"
+                        placeholder="Closing Amount"
                         {...field}
                         onChange={(e) => field.onChange(Number(e.target.value))}
                       />

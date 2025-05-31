@@ -7,13 +7,14 @@ import { useDispatch } from "react-redux";
 const AccountLedgerDetail = () => {
   const url = new URL(window.location.href); // Get the current URL
   const searchParams = new URLSearchParams(url.search); // Extract query string parameters
-  const account = searchParams.get('account');  // Get 'account' query parameter
+  const accountId = searchParams.get('account');  // Get 'account' query parameter
   const startDate = searchParams.get('startDate');
   const endDate = searchParams.get('endDate');
 
   const [groupedData, setGroupedData] = useState<any[]>([]); // State for grouped data
   const [previousBalance, setPreviousBalance] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [account, setAccount] = useState<any>(null);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -21,13 +22,15 @@ const AccountLedgerDetail = () => {
     setLoading(true);
     const fetchTransactions = async () => {
       const params = {
-        accountId: account,
+        accountId: accountId,
         startDate,
         endDate,
       };
       await dispatch(getAccountDetailsById(params)).then((action) => {
         // Process the payload directly in this effect
         const accountDetails = action.payload;
+        // console.log("accountDetails", accountDetails);
+        setAccount(accountDetails?.account[0]);
         // Calculate previous balance from previous sales and transactions
         let previousTransactionsTotal = 0;
  
@@ -115,7 +118,7 @@ const AccountLedgerDetail = () => {
         ) : (
           <div>
             <div className="flex justify-between items-center px-2">
-              <h2 className="text-xl font-bold my-4">Customer Ledger : {""}</h2>
+              <h2 className="text-xl font-bold my-4">Account Ledger : {account?.name}</h2>
               <h2 className="text-xl font-bold my-4">Previous Balance : {previousBalance}</h2>
             </div>
             <table className="w-full border-collapse border border-gray-300 cursor-pointer">
@@ -130,7 +133,7 @@ const AccountLedgerDetail = () => {
               </thead>
               <tbody>
                 {groupedData.map((data, index) => {
-                  balance +=  data.credit - data.debit;
+                  balance +=  data.debit - data.credit;
                   return (
                     <tr className="hover:bg-gray-100" key={index}>
                       <td className="px-2 border border-black">{data.date}</td>

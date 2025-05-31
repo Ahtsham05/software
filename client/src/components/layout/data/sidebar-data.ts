@@ -23,9 +23,9 @@ export const sidebarData: SidebarData = {
   },
   teams: [
     {
-      name: 'Shadcn Admin',
+      name: 'Shahid Mobiles',
       logo: Command,
-      plan: 'Vite + ShadcnUI',
+      plan: 'Shahid Mobiles',
     },
     {
       name: 'Acme Inc',
@@ -90,6 +90,11 @@ export const sidebarData: SidebarData = {
         {
           title: 'Mobile Repairing',
           url: '/mobile-repair',
+          icon: IconMessages,
+        },
+        {
+          title: 'Jazz Cash & Load',
+          url: '/mobile-load',
           icon: IconMessages,
         },
         // {
