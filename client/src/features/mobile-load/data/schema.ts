@@ -13,5 +13,7 @@ export const transactionSchema = z.object({
 export const transactionListSchema = z.array(transactionSchema);
 
 export type Transaction = z.infer<typeof transactionSchema>;
+export type sale = z.infer<typeof transactionSchema>;
 export type User = z.infer<typeof transactionSchema>;
+export type Supplier = z.infer<typeof transactionSchema>;
 export type TransactionList = z.infer<typeof transactionListSchema>;

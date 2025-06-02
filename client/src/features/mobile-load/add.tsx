@@ -31,7 +31,7 @@ import Select from 'react-select';
 
 import { Transaction } from './data/schema';
 import { useNavigate } from '@tanstack/react-router';
-import { getAccountDetailsById } from '@/stores/account.slice';
+// import { getAccountDetailsById } from '@/stores/account.slice';
 
 const transactionSchema = z.object({
   account: z.string().min(1, { message: 'Account is required' }),

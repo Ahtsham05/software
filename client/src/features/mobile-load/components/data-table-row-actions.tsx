@@ -11,12 +11,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useSuppliers } from '../context/users-context'
-import { User } from '../data/schema'
+// import { User } from '../data/schema'
 import { useNavigate } from '@tanstack/react-router'
 import { EyeIcon } from 'lucide-react'
 
 interface DataTableRowActionsProps {
-  row: Row<User>
+  row: Row<any>
 }
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {

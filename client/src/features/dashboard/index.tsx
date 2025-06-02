@@ -199,7 +199,7 @@ export default function Dashboard() {
 
             {/* Shahid Mobiles in Urdu */}
             <p className="text-5xl font-semibold text-blue-600 mb-4">
-              شاہد موبائلز
+              شاہد موبائل
             </p>
           </div>
         </div>

@@ -6,16 +6,16 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ConfirmDialog } from '@/components/confirm-dialog'
-import { sale } from '../data/schema'  // Changed from Customer to Supplier
+// import { Supplier } from '../data/schema'  // Changed from Customer to Supplier
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/stores/store'
+import { deleteSupplier } from '@/stores/supplier.slice'  // Changed to deleteSupplier
 import toast from 'react-hot-toast'
-import { deleteSale } from '@/stores/sale.slice'
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
-  currentRow: sale  // Changed from Customer to Supplier
+  currentRow: any  // Changed from Customer to Supplier
   setFetch: any
 }
 
@@ -24,11 +24,11 @@ export function SuppliersDeleteDialog({ open, onOpenChange, currentRow, setFetch
   const dispatch = useDispatch<AppDispatch>()
 
   const handleDelete = async () => {
-    if (value.trim() !== currentRow?.invoiceNumber) return
+    if (value.trim() !== currentRow.name) return
 
     onOpenChange(false)
-    await dispatch(deleteSale(currentRow.id)).then(() => {
-      toast.success('Purchase deleted successfully')
+    await dispatch(deleteSupplier(currentRow.id)).then(() => {
+      toast.success('Supplier deleted successfully')
       setFetch((prev: any) => !prev)
     })
   }
@@ -38,7 +38,7 @@ export function SuppliersDeleteDialog({ open, onOpenChange, currentRow, setFetch
       open={open}
       onOpenChange={onOpenChange}
       handleConfirm={handleDelete}
-      disabled={value.trim() !== currentRow.invoiceNumber}
+      disabled={value.trim() !== currentRow.name}
       title={
         <span className='text-destructive'>
           <IconAlertTriangle
@@ -52,21 +52,21 @@ export function SuppliersDeleteDialog({ open, onOpenChange, currentRow, setFetch
         <div className='space-y-4'>
           <p className='mb-2'>
             Are you sure you want to delete{' '}
-            <span className='font-bold'>{currentRow.invoiceNumber}</span>?
+            <span className='font-bold'>{currentRow.name}</span>?
             <br />
-            This action will permanently remove the Purchase{' '}
+            This action will permanently remove the supplier{' '}
             <span className='font-bold'>
-              {currentRow?.invoiceNumber}
+              {currentRow.name.toUpperCase()}
             </span>{' '}
             from the system. This cannot be undone.
           </p>
 
           <Label className='my-2'>
-            Purchase:
+            Supplier:
             <Input
               value={value}
               onChange={(e) => setValue(e.target.value)}
-              placeholder='Enter Purchase Invoice Number to confirm deletion.'
+              placeholder='Enter Supplier Name to confirm deletion.'
             />
           </Label>
 

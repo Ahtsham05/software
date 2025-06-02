@@ -1,11 +1,11 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
-import { sale } from '../data/schema'  // Changed from purchase to sale
+// import { sale } from '../data/schema'  // Changed from purchase to sale
 import { DataTableColumnHeader } from './data-table-column-header'
 import { DataTableRowActions } from './data-table-row-actions'
 import { format } from 'date-fns'  // Import date-fns for date formatting
 
-export const columns: ColumnDef<sale>[] = [
+export const columns: ColumnDef<any>[] = [
   {
     id: 'select',
     header: ({ table }) => (

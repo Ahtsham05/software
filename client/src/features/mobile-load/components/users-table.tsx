@@ -22,7 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { sale } from '../data/schema'  // Changed from Customer to Supplier
+// import { sale } from '../data/schema'  // Changed from Customer to Supplier
 import { DataTablePagination } from './data-table-pagination'
 import { DataTableToolbar } from './data-table-toolbar'
 
@@ -34,8 +34,8 @@ declare module '@tanstack/react-table' {
 }
 
 interface DataTableProps {
-  columns: ColumnDef<sale>[]  // Changed from Customer to sale
-  data: sale[]  // Changed from Customer to sale
+  columns: ColumnDef<any>[]  // Changed from Customer to any
+  data: any[]  // Changed from Customer to sale
   paggination: any
 }
 
